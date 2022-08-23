@@ -1,0 +1,124 @@
+<form
+  class="form-horizontal"
+  autocomplete="on"
+  #createDocumentForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Evrak Oluştur' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    
+    <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Müşteri</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let entity of clientList | async" [value]="receiving.clientId">
+              {{receiving.clientId}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+      
+    
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="Name">
+        {{ "Ürün İsmi" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="productName"
+          id="name"
+          minlength="2"
+          maxlength="64"
+          required
+          [(ngModel)]="receiving.documentNo"
+          #tenancyNameModel="ngModel"
+          #tenancyNameEl
+        />
+        <abp-validation-summary
+          [control]="tenancyNameModel"
+          [controlEl]="tenancyNameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="quantity">
+        {{ "Miktar" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="quantity"
+          id="quantity"
+          maxlength="128"
+          required
+          [(ngModel)]="receiving.documentDate"
+          #nameModel="ngModel"
+          #nameEl
+        />
+        <abp-validation-summary
+          [control]="nameModel"
+          [controlEl]="nameEl"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <!-- <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="Description">
+          {{ "Açıklama" | localize }}
+        </label>
+        <div class="col-md-9">
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="description"
+            maxlength="128"
+            required
+            [(ngModel)]="product.description"
+            #nameModel="ngModel"
+            #nameEl
+          />
+          <abp-validation-summary
+            [control]="nameModel"
+            [controlEl]="nameEl"
+          ></abp-validation-summary>
+        </div>
+      </div>
+
+      <div class="form-group row required">
+        <label class="col-md-3 col-form-label" for="StockCode">
+          {{ "Stok Kodu" | localize }}
+        </label>
+        <div class="col-md-9">
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            id="name"
+            maxlength="128"
+            required
+            [(ngModel)]="product.stockCode"
+            #nameModel="ngModel"
+            #nameEl
+          />
+          <abp-validation-summary
+            [control]="nameModel"
+            [controlEl]="nameEl"
+          ></abp-validation-summary>
+        </div>
+      </div> -->
+
+    </div>
+    <abp-modal-footer
+      [cancelDisabled]="saving"
+      [saveDisabled]="!createDocumentForm.form.valid || saving"
+      (onCancelClick)="bsModalRef.hide()"
+    ></abp-modal-footer>
+  </form>
