@@ -8,7 +8,7 @@
   <div class="dropdown-menu dropdown-menu-right p-0" *dropdownMenu>
     <ng-container *ngFor="let language of languages">
       <a
-        *ngIf="language.name != currentLanguage.name"
+        *ngIf='language.name != currentLanguage.name && (language.name=== "tr"||language.name === "en")'
         class="dropdown-item"
         href="javascript:;"
         (click)="changeLanguage(language.name)"

@@ -14,6 +14,7 @@ import {
 import { CreateDocumentDialogComponent } from './create-document-dialog/create-document-dialog.component';
 import { EditDocumentDialogComponent } from './edit-document-dialog/edit-document-dialog.component';
 import { relativeTimeThreshold } from 'moment';
+import { DocumentDetailDialogComponent } from './document-detail-dialog/document-detail-dialog.component';
 
 class PagedProductRequestDto extends PagedRequestDto {
   keyword: string;
@@ -88,6 +89,32 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
     );
   }
 
+
+  documentDetail(): void {
+    this.showDocumentDetailDialog();
+  }
+
+  showDocumentDetailDialog(id?: number): void {
+ 
+    let createOrEditDocumentDetailDialog: BsModalRef;
+    if (!id) {
+      createOrEditDocumentDetailDialog = this._modalService.show(
+        DocumentDetailDialogComponent,
+        {
+          class: 'modal-lg',
+          initialState: {documentDetail:this.documentDetail}
+
+        }
+      );
+    } 
+
+    createOrEditDocumentDetailDialog.content.onSave?.subscribe(() => {
+      //this.refresh();
+      this.list();
+    });
+  }
+
+
   createReceivingDocument(): void {
     this.showCreateOrEditReceivingDocumentDialog();
   }
@@ -117,7 +144,7 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
       );
     }
 
-    createOrEditReceivingDocumentDialog.content.onSave.subscribe(() => {
+    createOrEditReceivingDocumentDialog.content.onSave?.subscribe(() => {
       //this.refresh();
       this.list();
     });

@@ -64,8 +64,8 @@
                                             <label class="col-md-3 col-form-label">
                                                 {{ "IsActive" | localize }}
                                             </label>
-                                            <!-- <div class="col-md-9 pt-2"> -->
-                                                <!-- <div class="custom-control custom-radio d-inline">
+                                            <div class="col-md-9 pt-2"> 
+                                                <div class="custom-control custom-radio d-inline">
                                                     <input
                                                             type="radio"
                                                             class="custom-control-input"
@@ -110,8 +110,8 @@
                                                     >
                                                         {{ "No" | localize }}
                                                     </label>
-                                                </div> -->
-                                            <!-- </div> -->
+                                                </div> 
+                                             </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -168,6 +168,8 @@
                                 <td>{{ client.taxNumber }}</td>
                                 <td>{{ client.taxOffice }}</td>
                                 <td>{{ client.phoneNumber }}</td>
+                                
+
                                 <!-- <td>
                                     <div class="custom-control custom-checkbox">
                                         <input
@@ -204,12 +206,12 @@
                 </div>
                 <div class="card-footer table-card-footer bg-light border-top">
                     <div class="row">
-                        <div class="col-sm-3 col-12 text-sm-left text-center">
+                        <div class="col-sm-4 col-12 text-sm-left text-center">
                             <button class="btn btn-secondary" (click)="refresh()">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
-                        <div class="col-sm-3 col-12 text-center">
+                        <div class="col-sm-4 col-12 text-center">
                             <p class="mb-0 my-2">
                                 {{ "TotalRecordsCount" | localize: totalItems }}
                             </p>
@@ -232,7 +234,7 @@
                         (pageSizeOptions)="[5, 10, 25, 100]"
                         (pageChange)="Select page">
                         </mat-paginator> -->
-                        <div class="col-sm-6  col-12" style=" display: flex; justify-content:flex-end; align-items: center;">
+                        <div class="col-sm-4  col-12" style=" display: flex; justify-content:flex-end; align-items: center;">
                            
                             <!-- <div class="float-sm-right m-auto"> -->
                                 <select style="margin-right:10px; height: 36px;" [(ngModel)]="pageSize" (change)="changePageSize()">

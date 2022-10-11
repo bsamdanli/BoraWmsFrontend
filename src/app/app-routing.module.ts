@@ -12,6 +12,8 @@ import { ClientComponent } from './client/client.component';
 import { ProductComponent } from './product/product.component';
 import { StorageComponent } from './storage/storage.component';
 import { ReceivingComponent } from './receiving/receiving.component';
+import { TransferComponent } from './transfer/transfer.component';
+import { StockComponent } from './stock/stock.component';
 
 @NgModule({
     imports: [
@@ -29,7 +31,9 @@ import { ReceivingComponent } from './receiving/receiving.component';
                     { path: 'client', component: ClientComponent, data: { permission: 'Pages.Client' }, canActivate: [AppRouteGuard] },
                     { path: 'product', component: ProductComponent, data: { permission: 'Pages.Product' }, canActivate: [AppRouteGuard] },
                     { path: 'storage', component: StorageComponent, data: { permission: 'Pages.Storage' }, canActivate: [AppRouteGuard] },
-                    { path: 'receiving', component: ReceivingComponent, data: { permission: 'Pages.Receiving' }, canActivate: [AppRouteGuard] }
+                    { path: 'receiving', component: ReceivingComponent, data: { permission: 'Pages.Receiving' }, canActivate: [AppRouteGuard] },
+                    { path: 'transfer', component: TransferComponent, data: { permission: 'Pages.StockMovement' }, canActivate: [AppRouteGuard] },
+                    { path: 'stock', component: StockComponent, data: { permission: 'Pages.Stock' }, canActivate: [AppRouteGuard] }
                 ]
             }
         ])

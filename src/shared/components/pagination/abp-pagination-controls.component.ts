@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { PaginationControlsDirective } from 'ngx-pagination';
 
 @Component({
   selector: 'abp-pagination-controls',
@@ -14,10 +15,9 @@ export class AbpPaginationControlsComponent {
   @Input() screenReaderPageLabel = 'page';
   @Input() screenReaderCurrentLabel = `You're on page`;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
-
+  @ViewChild ("p") p:PaginationControlsDirective;
   private _directionLinks = true;
   private _autoHide = false;
-
   @Input()
   get directionLinks(): boolean {
     return this._directionLinks;
@@ -31,5 +31,8 @@ export class AbpPaginationControlsComponent {
   }
   set autoHide(value: boolean) {
     this._autoHide = !!value && <any>value !== 'false';
+  }
+  a(p){
+    console.log(p);
   }
 }

@@ -7,12 +7,14 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatButtonModule } from '@angular/material/button'; 
+
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
@@ -57,6 +59,16 @@ import { EditStorageDialogComponent } from './storage/edit-storage-dialog/edit-s
 import { ReceivingComponent } from './receiving/receiving.component';
 import { CreateDocumentDialogComponent } from './receiving/create-document-dialog/create-document-dialog.component';
 import { EditDocumentDialogComponent } from './receiving/edit-document-dialog/edit-document-dialog.component';
+import { SelectClientDialogComponent } from './receiving/select-client-dialog/select-client-dialog.component';
+import { SelectProductDialogComponent } from './receiving/select-product-dialog/select-product-dialog.component';
+import { TransferComponent } from './transfer/transfer.component';
+import { CreateTransferDialogComponent } from './transfer/create-transfer-dialog/create-transfer-dialog.component';
+import { SelectStorageOutDialogComponent } from './transfer/select-storage-out-dialog/select-storage-out-dialog.component';
+import { SelectStorageInDialogComponent } from './transfer/select-storage-in-dialog/select-storage-in-dialog.component';
+import { SelectProductTransferDialogComponent } from './transfer/select-product-transfer-dialog/select-product-transfer-dialog.component';
+import { StockComponent } from './stock/stock.component';
+import { DocumentDetailDialogComponent } from './receiving/document-detail-dialog/document-detail-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -98,7 +110,17 @@ import { EditDocumentDialogComponent } from './receiving/edit-document-dialog/ed
     EditStorageDialogComponent,
     ReceivingComponent,
     CreateDocumentDialogComponent,
-    EditDocumentDialogComponent
+    EditDocumentDialogComponent,
+    SelectClientDialogComponent,
+    SelectProductDialogComponent,
+    TransferComponent,
+    CreateTransferDialogComponent,
+    SelectStorageOutDialogComponent,
+    SelectStorageInDialogComponent,
+    SelectProductTransferDialogComponent,
+    StockComponent,
+    DocumentDetailDialogComponent
+    
   ],
   imports: [
     CommonModule,
@@ -119,7 +141,8 @@ import { EditDocumentDialogComponent } from './receiving/edit-document-dialog/ed
     MatSelectModule,
     MatOptionModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [],
   entryComponents: [
@@ -134,10 +157,22 @@ import { EditDocumentDialogComponent } from './receiving/edit-document-dialog/ed
     EditUserDialogComponent,
     ResetPasswordDialogComponent,
     // client
-    ClientComponent,
+    //ClientComponent,
     CreateClientDialogComponent,
     EditClientDialogComponent,
-    CreateDocumentDialogComponent
+    CreateStorageDialogComponent,
+    CreateDocumentDialogComponent,
+    SelectProductDialogComponent,
+    EditStorageDialogComponent,
+    SelectClientDialogComponent,
+    CreateTransferDialogComponent,
+    SelectProductTransferDialogComponent,
+    SelectStorageInDialogComponent,
+    SelectStorageOutDialogComponent,
+    
+ 
+
+    TransferComponent
   ],
 })
 export class AppModule {}

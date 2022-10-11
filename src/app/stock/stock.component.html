@@ -3,13 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{ "Products" | localize }}</h1>
-                </div>
-                <div class="col-6 text-right">
-                    <a href="javascript:;" class="btn bg-blue" (click)="createProduct()">
-                        <i class="fa fa-plus-square"></i>
-                        {{ "CreateNewProduct" | localize }}
-                    </a>
+                    <h1>{{ "Stocks" | localize }}</h1>
                 </div>
             </div>
         </div>
@@ -55,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="advancedFiltersVisible" class="card mb-0 mt-1">
+                    <!-- <div *ngIf="advancedFiltersVisible" class="card mb-0 mt-1">
                         <div class="card-body">
                             <form class="form-horizontal">
                                 <div class="row">
@@ -63,7 +57,17 @@
                                         <div class="form-group row mb-0">
                                             <label class="col-md-3 col-form-label">
                                                 {{ "IsActive" | localize }}
-                                            </label>
+                                            </label> -->
+
+                                            <!-- <div class="upper-container">
+                                                <div class="right-wrapper search-box-and-icon-container left-wrapper">
+                                                    <button class="search-icon-button"><i class="fas fa-search"></i></button>
+                                                    <input (ngModelChange)="keyword = $event" (ngModelChange)="search($event, isActive)"
+                                                        class="search-box" [(ngModel)]="keyword" type="text" id="searchInput" name="searchInput"
+                                                        value="" [placeholder]="'SearchWithThreeDot' | localize" ng-required="searchInput">
+                                                </div>
+                                            </div> -->
+
                                             <!-- <div class="col-md-9 pt-2"> -->
                                                 <!-- <div class="custom-control custom-radio d-inline">
                                                     <input
@@ -112,7 +116,7 @@
                                                     </label>
                                                 </div> -->
                                             <!-- </div> -->
-                                        </div>
+                                        <!-- </div>
                                     </div>
                                 </div>
                             </form>
@@ -133,24 +137,22 @@
                                 {{ "Clear" | localize }}
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered" [busy]="isTableLoading">
                             <thead class="bg-light">
                             <tr>
-                                <th>{{ "ProductName" | localize }}</th>
-                                <th>{{ "Quantity" | localize }}</th>
-                                <th>{{ "Description" | localize }}</th>
-                                <th>{{ "StockCode" | localize }}</th>
+                                <th>{{ "StorageName" | localize }}</th>
+                                <th>{{ "StorageCode" | localize }}</th>
                                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr
                                     *ngFor="
-                  let product of dataSource
+                  let storage of dataSource
                     | paginate
                       : {
                           id: 'server',
@@ -160,10 +162,9 @@
                         }
                 "
                             >
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td>{{ product.description }}</td>
-                                <td>{{ product.stockCode }}</td>
+                                <td>{{ storage.name }}</td>
+                                <td>{{ storage.storageCode }}</td>
+                                
                                 
                                 <!-- <td>
                                     <div class="custom-control custom-checkbox">
@@ -180,7 +181,7 @@
                                     <button
                                             type="button"
                                             class="btn btn-sm bg-secondary"
-                                            (click)="editProduct(product)"
+                                            (click)="editStorage(storage)"
                                     >
                                         <i class="fas fa-pencil-alt"></i>
                                         {{ "Edit" | localize }}
@@ -188,7 +189,7 @@
                                     <button
                                             type="button"
                                             class="btn btn-sm bg-danger mx-2"
-                                            (click)="delete(product)"
+                                            (click)="delete(storage)"
                                     >
                                         <i class="fas fa-trash"></i>
                                         {{ "Delete" | localize }}
@@ -212,7 +213,7 @@
                             </p>
                         </div>
                         <div class="col-sm-4 col-12"style=" display: flex; justify-content:flex-end; align-items: center;">
-                                <select style="margin-right:10px; height: 36px;" [(ngModel)]="pageSize" (change)="changePageSize()">
+                            <select style="margin-right:10px; height: 36px;" [(ngModel)]="pageSize" (change)="changePageSize()">
                                 <option *ngFor="let pageSizeSelected of pageSizeOption"
                                     [value]="pageSizeSelected">
                                     {{ pageSizeSelected }}
@@ -226,9 +227,9 @@
                                         (pageChange)="getDataPage($event)"
                                 >
                                 </abp-pagination-controls>
-                        
-                      </div>
-                   </div>
+                                
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

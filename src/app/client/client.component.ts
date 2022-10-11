@@ -69,10 +69,12 @@ export class ClientComponent extends PagedListingComponentBase<ClientDto> {
     finishedCallback: Function
     ): void {
       request.keyword= this.keyword;
+      request.isActive = this.isActive;
      
       this._clientService
       .getClientListPaged(
         request.keyword,
+        request.isActive,
         request.skipCount,
         request.maxResultCount
       ).pipe(

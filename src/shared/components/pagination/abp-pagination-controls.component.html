@@ -1,7 +1,7 @@
 <pagination-template
   #p="paginationApi"
   [id]="id"
-  [maxSize]="maxSize"
+  [maxSize]="maxSize" 
   (pageChange)="pageChange.emit($event)"
 >
   <nav>
@@ -27,7 +27,7 @@
         *ngFor="let page of p.pages"
         class="page-item"
         [class.active]="p.getCurrent() === page.value"
-        [style.z-index]="p.getCurrent() === page.value ? '0' : ''"
+        [style.z-index]="p.getCurrent() === page.value? '0' : ''"
       >
         <a
           class="page-link"

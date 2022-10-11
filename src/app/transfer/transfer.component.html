@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{ "Products" | localize }}</h1>
+                    <h1>{{ "Transfer" | localize }}</h1>
                 </div>
                 <div class="col-6 text-right">
-                    <a href="javascript:;" class="btn bg-blue" (click)="createProduct()">
+                    <a href="javascript:;" class="btn bg-blue" (click)="createTransfer()">
                         <i class="fa fa-plus-square"></i>
-                        {{ "CreateNewProduct" | localize }}
+                        {{ "CreateNewTransfer" | localize }}
                     </a>
                 </div>
             </div>
@@ -142,15 +142,16 @@
                             <tr>
                                 <th>{{ "ProductName" | localize }}</th>
                                 <th>{{ "Quantity" | localize }}</th>
-                                <th>{{ "Description" | localize }}</th>
-                                <th>{{ "StockCode" | localize }}</th>
-                                <th style="width: 200px;">{{ "Actions" | localize }}</th>
+                                <th>{{ "StorageName" | localize }}</th>
+                                <th>{{ "Type" | localize }}</th>
+                                <th>{{ "CreationTime" | localize }}</th>
+                                <!-- <th style="width: 200px;">{{ "Actions" | localize }}</th> -->
                             </tr>
                             </thead>
                             <tbody>
                             <tr
                                     *ngFor="
-                  let product of dataSource
+                  let movement of dataSource
                     | paginate
                       : {
                           id: 'server',
@@ -160,11 +161,12 @@
                         }
                 "
                             >
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td>{{ product.description }}</td>
-                                <td>{{ product.stockCode }}</td>
-                                
+                                <td>{{ movement.product.name }}</td>
+                                <td>{{ movement.quantity }}</td>
+                                <td>{{ movement.storage.name }}</td>
+                                <td>{{ (movement.type == 1 ? "In" : "Out") | localize }}</td>
+                                <td>{{ movement.creationTime | date: 'short' }}</td>
+
                                 <!-- <td>
                                     <div class="custom-control custom-checkbox">
                                         <input
@@ -176,7 +178,7 @@
                                         <label class="custom-control-label"></label>
                                     </div>
                                 </td> -->
-                                <td>
+                                <!-- <td>
                                     <button
                                             type="button"
                                             class="btn btn-sm bg-secondary"
@@ -193,7 +195,7 @@
                                         <i class="fas fa-trash"></i>
                                         {{ "Delete" | localize }}
                                     </button>
-                                </td>
+                                </td> -->
                             </tr>
                             </tbody>
                         </table>

@@ -1,38 +1,51 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #editTenantForm="ngForm"
+  #createReceivingForm="ngForm"
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'EditClient' | localize"
+    [title]="'CreateNewTransfer' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
+
+    <a href="javascript:;" class="btn bg-blue" (click)="selectStorageOut()">
+      <i class="fa fa-plus-square"></i>
+      {{ "SelectStorageOut" | localize }}
+  </a>
+  <span class="">{{storageOut?.name}}</span>
+
+  <a href="javascript:;" class="btn bg-blue" (click)="selectStorageIn()">
+    <i class="fa fa-plus-square"></i>
+    {{ "SelectStorageIn" | localize }}
+</a>
+<span class="">{{storageIn?.name}}</span>
+
+  <a href="javascript:;" class="btn bg-blue" (click)="selectProduct()">
+    <i class="fa fa-plus-square"></i>
+    {{ "SelectProduct" | localize }}
+</a>
+<span class="">{{product.name}}</span>
+
     <div class="form-group row required">
-      <label class="col-md-3 col-form-label" for="name">
-        {{ "Name" | localize }}
+      <label class="col-md-3 col-form-label" for="Quantity">
+        {{ "Quantity" | localize }}
       </label>
       <div class="col-md-9">
         <input
-          type="text"
+          type="number"
           class="form-control"
-          name="name"
-          id="name"
-          minlength="2"
+          name="tenancyName"
+          id="tenancyName"
+          minlength="1"
           maxlength="64"
           required
-          [(ngModel)]="client.name"
-          #NameModel="ngModel"
-          #NameEl
+          [(ngModel)]="quantityInput"
         />
-        <abp-validation-summary
-          [control]="NameModel"
-          [controlEl]="NameEl"
-        ></abp-validation-summary>
       </div>
     </div>
-    <div class="form-group row required">
+    <!-- <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="address">
         {{ "Address" | localize }}
       </label>
@@ -40,11 +53,11 @@
         <input
           type="text"
           class="form-control"
-          name="address"
-          id="address"
+          name="name"
+          id="name"
           maxlength="128"
           required
-          [(ngModel)]="client.address"
+          [(ngModel)]="receiving.documentDate"
           #nameModel="ngModel"
           #nameEl
         />
@@ -53,9 +66,9 @@
           [controlEl]="nameEl"
         ></abp-validation-summary>
       </div>
-    </div>
+    </div> -->
 
-    <div class="form-group row required">
+    <!-- <div class="form-group row required">
         <label class="col-md-3 col-form-label" for="Email">
           {{ "Email" | localize }}
         </label>
@@ -63,11 +76,11 @@
           <input
             type="text"
             class="form-control"
-            name="Email"
-            id="Email"
+            name="name"
+            id="name"
             maxlength="128"
             required
-            [(ngModel)]="client.email"
+            [(ngModel)]="receiving."
             #nameModel="ngModel"
             #nameEl
           />
@@ -79,18 +92,18 @@
       </div>
 
       <div class="form-group row required">
-        <label class="col-md-3 col-form-label" for="taxNumber">
+        <label class="col-md-3 col-form-label" for="TaxNumber">
           {{ "TaxNumber" | localize }}
         </label>
         <div class="col-md-9">
           <input
             type="text"
             class="form-control"
-            name="taxNumber"
-            id="taxNumber"
+            name="name"
+            id="name"
             maxlength="128"
             required
-            [(ngModel)]="client.taxNumber"
+            [(ngModel)]="Receiving.taxNumber"
             #nameModel="ngModel"
             #nameEl
           />
@@ -102,18 +115,18 @@
       </div>
 
       <div class="form-group row required">
-        <label class="col-md-3 col-form-label" for="taxOffice">
+        <label class="col-md-3 col-form-label" for="TaxOffice">
           {{ "TaxOffice" | localize }}
         </label>
         <div class="col-md-9">
           <input
             type="text"
             class="form-control"
-            name="taxOffice"
-            id="taxOffice"
+            name="name"
+            id="name"
             maxlength="128"
             required
-            [(ngModel)]="client.taxOffice"
+            [(ngModel)]="Receiving.taxOffice"
             #nameModel="ngModel"
             #nameEl
           />
@@ -125,18 +138,18 @@
       </div>
 
       <div class="form-group row required">
-        <label class="col-md-3 col-form-label" for="phoneNumber">
+        <label class="col-md-3 col-form-label" for="PhoneNumber">
           {{ "PhoneNumber" | localize }}
         </label>
         <div class="col-md-9">
           <input
             type="text"
             class="form-control"
-            name="phoneNumber"
-            id="phoneNumber"
+            name="name"
+            id="name"
             maxlength="128"
             required
-            [(ngModel)]="client.phoneNumber"
+            [(ngModel)]="Receiving.phoneNumber"
             #nameModel="ngModel"
             #nameEl
           />
@@ -145,9 +158,47 @@
             [controlEl]="nameEl"
           ></abp-validation-summary>
         </div>
-      </div>
+      </div> -->
 
-    <div class="form-group row mb-0">
+    <!-- <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="connectionString">
+        {{ "DatabaseConnectionString" | localize }}
+      </label> -->
+      <!-- <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="connectionString"
+          id="connectionString"
+          maxlength="1024"
+          [(ngModel)]="tenant.connectionString"
+        />
+      </div> -->
+    <!-- </div> -->
+    <!-- <div class="form-group row required">
+      <label class="col-md-3 col-form-label" for="adminEmailAddress">
+        {{ "AdminEmailAddress" | localize }}
+      </label> -->
+      <!-- <div class="col-md-9">
+        <input
+          type="email"
+          class="form-control"
+          name="adminEmailAddress"
+          id="adminEmailAddress"
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$"
+          maxlength="256"
+          required
+          [(ngModel)]="tenant.adminEmailAddress"
+          #adminEmailAddressModel="ngModel"
+          #adminEmailAddressEl
+        />
+        <abp-validation-summary
+          [control]="adminEmailAddressModel"
+          [controlEl]="adminEmailAddressEl"
+        ></abp-validation-summary>
+      </div> -->
+    <!-- </div> -->
+    <!-- <div class="form-group row mb-0">
       <label class="col-md-3 col-form-label">
         {{ "IsActive" | localize }}
       </label>
@@ -158,16 +209,19 @@
             class="custom-control-input"
             name="isActive"
             id="isActive"
-            [(ngModel)]="client.isActive"
+            [(ngModel)]="tenant.isActive"
           />
           <label class="custom-control-label mt-2" for="isActive"></label>
         </div>
       </div>
-    </div>
-  </div> 
+    </div> -->
+    <!-- <p class="text-center text-info mb-0">
+      {{ "DefaultPasswordIs" | localize: "123qwe" }}
+    </p> -->
+  </div>
   <abp-modal-footer
     [cancelDisabled]="saving"
-    [saveDisabled]="!editTenantForm.form.valid || saving"
+    [saveDisabled]="!createReceivingForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>

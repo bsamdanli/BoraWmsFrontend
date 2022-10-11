@@ -39,7 +39,7 @@
                                         [(ngModel)]="keyword"
                                         (keyup.enter)="getDataPage(1)"
                                 />
-                                <div class="input-group-append">
+                                <!-- <div class="input-group-append">
                                     <button
                                             type="button"
                                             class="btn btn-default"
@@ -51,7 +51,7 @@
                                                 [class.fa-angle-down]="!advancedFiltersVisible"
                                         ></i>
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -218,14 +218,22 @@
                                 {{ "TotalRecordsCount" | localize: totalItems }}
                             </p>
                         </div>
-                        <div class="col-sm-4 col-12">
-                            <div class="float-sm-right m-auto">
+                        <div class="col-sm-4 col-12"style=" display: flex; justify-content:flex-end; align-items: center;">
+                            <select style="margin-right:10px; height: 36px;" [(ngModel)]="pageSize" (change)="changePageSize()">
+                                <option *ngFor="let pageSizeSelected of pageSizeOption"
+                                    [value]="pageSizeSelected">
+                                    {{ pageSizeSelected }}
+                                </option>
+                                </select>
                                 <abp-pagination-controls
+                                        (length)="length"
+                                        (pageSize)="pageSize"
+                                        (pageSizeOptions)="[5, 10, 25, 100]"
                                         id="server"
                                         (pageChange)="getDataPage($event)"
                                 >
                                 </abp-pagination-controls>
-                            </div>
+                                
                         </div>
                     </div>
                 </div>
