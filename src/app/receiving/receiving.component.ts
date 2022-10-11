@@ -15,8 +15,9 @@ import { CreateDocumentDialogComponent } from './create-document-dialog/create-d
 import { EditDocumentDialogComponent } from './edit-document-dialog/edit-document-dialog.component';
 import { relativeTimeThreshold } from 'moment';
 import { DocumentDetailDialogComponent } from './document-detail-dialog/document-detail-dialog.component';
+import { threadId } from 'worker_threads';
 
-class PagedProductRequestDto extends PagedRequestDto {
+class PagedReceivingRequestDto extends PagedRequestDto {
   keyword: string;
   isActive: boolean | null;
 }
@@ -45,24 +46,30 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
 
 
   list(
-    
+    request: PagedReceivingRequestDto,
+    pageNumber: number,
+    finishedCallback: Function
   )
   {
-    
+    request.keyword = this.keyword;
     this._receivingService
       .getDocumentAll(
-        
+        request.keyword,
+        request.skipCount,
+        request.maxResultCount
       )
        .pipe(
          finalize(() => {
           this.isTableLoading = false;
+          finishedCallback()
          })
        )
         
       
       .subscribe(result => {
-        this.dataSource = result;
-        this.totalItems = this.dataSource.length;
+        this.dataSource = result.items;
+        this.totalItems = result.totalCount;
+        this.showPaging(result, pageNumber);
       });
   }
 
@@ -82,7 +89,8 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
               })
             )
             .subscribe(() => {
-              this.list();
+              //this.list();
+              this.refresh();
             });
         }
       }
@@ -90,27 +98,35 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
   }
 
 
-  documentDetail(): void {
-    this.showDocumentDetailDialog();
+  documentDetail(id): void {
+    this.showDocumentDetailDialog(id);
   }
 
   showDocumentDetailDialog(id?: number): void {
  
     let createOrEditDocumentDetailDialog: BsModalRef;
-    if (!id) {
+    if (id) {
+      let document;
+      this.dataSource.forEach(el=>{
+        if(el.id===id )
+        {
+          document=el
+        }
+      })
+
       createOrEditDocumentDetailDialog = this._modalService.show(
         DocumentDetailDialogComponent,
         {
           class: 'modal-lg',
-          initialState: {documentDetail:this.documentDetail}
+          initialState: {id,document}
 
         }
       );
     } 
 
     createOrEditDocumentDetailDialog.content.onSave?.subscribe(() => {
-      //this.refresh();
-      this.list();
+      this.refresh();
+      //this.list();
     });
   }
 
@@ -145,8 +161,8 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
     }
 
     createOrEditReceivingDocumentDialog.content.onSave?.subscribe(() => {
-      //this.refresh();
-      this.list();
+      this.refresh();
+      //this.list();
     });
   }
 
@@ -155,7 +171,17 @@ export class ReceivingComponent extends PagedListingComponentBase<ReceivingDto> 
     this.isActive = undefined;
     this.getDataPage(1);
   }
+deleteDocument(id): void {
+  this._receivingService.deleteDocument(id).subscribe(() => {
+    this.dataSource.forEach((el, index) => {
+      if (el.id === id) {
+        this.dataSource[index].isDeleted = true;
+        this.dataSource.splice(index, 1);
+      }
+    })
+  })
 
+}
   
   
 

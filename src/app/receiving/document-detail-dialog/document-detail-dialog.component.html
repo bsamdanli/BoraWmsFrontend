@@ -7,6 +7,14 @@
                 </div>
                 
             </div>
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-6">
+                <button *ngIf="!document.isCompleted" class="btn bg-blue" [disabled]="!isCompleted"(click)="save()">
+                    <i class="fa fa-plus-square"></i>
+                    {{ "Save" | localize }}
+                </button>
+            </div>
+            </div>
         </div>
     </section>
     <section class="content px-2">
@@ -26,7 +34,7 @@
                             <tr>
                                 <th>{{ "Product" | localize }}</th>
                                 <th>{{ "Quantity" | localize }}</th>
-                                <th>{{ "CreationTime" | localize }}</th>
+                                <!-- <th>{{ "CreationTime" | localize }}</th> -->
                                 <th style="width: 200px;">{{ "Actions" | localize }}</th>
                             </tr>
                             </thead>
@@ -43,9 +51,34 @@
                         }
                 "
                             >
-                                <td>{{ documentDetail.productId }}</td>
+                                <td>{{ documentDetail.product.name }}</td>
                                 <td>{{ documentDetail.quantity }}</td>
-                                <td>{{ documentDetail.creationTime }}</td>
+                                <!-- <td>{{ documentDetail.creationTime }}</td> -->
+                                <td>
+                                    <div style="display: flex; justify-content: space-between">
+                                        <button
+                                        *ngIf="!(document.isCompleted)"
+                                        type="button"
+                                        class="btn btn-sm bg-secondary"
+                                        (click)="complete(documentDetail.id)"
+                                        [disabled]="documentDetail.isCompleted || documentDetail.isDeleted"
+                                    >
+                                        <i *ngIf="!documentDetail.isCompleted" class="fas fa-pencil-alt"></i>
+                                        {{ documentDetail.isCompleted ? "Completed": "Complete" | localize }}
+                                        </button>
+                                    <button
+                                    *ngIf="!(document.isCompleted)"
+                                        type="button"
+                                        class="btn btn-sm bg-secondary"
+                                        (click)="deleteDocumentDetail(documentDetail.id)"
+                                        [disabled]="documentDetail.isDeleted"
+                                >       
+                                    <i *ngIf="!documentDetail.isDeleted" class="fas fa-trash"></i>
+                                    {{ documentDetail.isDeleted ? "Deleted": "Delete" | localize }}
+                                </button>
+                                    </div>
+                                    
+                                </td>
                             </tr>
                             </tbody>
                         </table>

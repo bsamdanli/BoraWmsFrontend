@@ -1,5 +1,5 @@
 
-import { Component, Injector } from '@angular/core';
+import { Component, EventEmitter, Injector, Output } from '@angular/core';
 import { finalize, throwIfEmpty } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -46,7 +46,7 @@ export class CreateDocumentDialogComponent extends PagedListingComponentBase<Cli
   isActive: boolean | null;
   advancedFiltersVisible = false;
   receiving: ReceivingDto= new ReceivingDto();
-  
+  @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
@@ -113,8 +113,10 @@ export class CreateDocumentDialogComponent extends PagedListingComponentBase<Cli
           details.push(detail);
       }
       details.forEach(detail=>this._ReceivingService.createReceivingDocumentDetail(detail).subscribe())
+      this.onSave.emit();
       })
-      this.bsModalRef.hide()
+      this.bsModalRef.hide();
+      
   }
 
   selectClient(): void {

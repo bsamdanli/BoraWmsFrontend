@@ -1699,10 +1699,25 @@ export class ReceivingServiceProxy {
     }
 
     /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
-    getDocumentAll(): Observable<ReceivingDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Receiving/GetDocumentAll";
+    getDocumentAll(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ReceivingDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Receiving/GetDocumentAll?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1720,14 +1735,14 @@ export class ReceivingServiceProxy {
                 try {
                     return this.processGetDocumentAll(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<ReceivingDto[]>;
+                    return _observableThrow(e) as any as Observable<ReceivingDtoPagedResultDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<ReceivingDto[]>;
+                return _observableThrow(response_) as any as Observable<ReceivingDtoPagedResultDto>;
         }));
     }
 
-    protected processGetDocumentAll(response: HttpResponseBase): Observable<ReceivingDto[]> {
+    protected processGetDocumentAll(response: HttpResponseBase): Observable<ReceivingDtoPagedResultDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1738,14 +1753,7 @@ export class ReceivingServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200.push(ReceivingDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = ReceivingDtoPagedResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1753,7 +1761,7 @@ export class ReceivingServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReceivingDto[]>(null as any);
+        return _observableOf<ReceivingDtoPagedResultDto>(null as any);
     }
 
     /**
@@ -1823,9 +1831,10 @@ export class ReceivingServiceProxy {
      * @param keyword (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
+     * @param documentId (optional) 
      * @return Success
      */
-    getDocumentDetailListPaged(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<DocumentDetailDtoPagedResultDto> {
+    getDocumentDetailListPaged(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined, documentId: number | undefined): Observable<DocumentDetailDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Receiving/GetDocumentDetailListPaged?";
         if (keyword === null)
             throw new Error("The parameter 'keyword' cannot be null.");
@@ -1839,6 +1848,10 @@ export class ReceivingServiceProxy {
             throw new Error("The parameter 'maxResultCount' cannot be null.");
         else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (documentId === null)
+            throw new Error("The parameter 'documentId' cannot be null.");
+        else if (documentId !== undefined)
+            url_ += "DocumentId=" + encodeURIComponent("" + documentId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1883,6 +1896,110 @@ export class ReceivingServiceProxy {
             }));
         }
         return _observableOf<DocumentDetailDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param detailId (optional) 
+     * @return Success
+     */
+    completeDocumentDetail(detailId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Receiving/CompleteDocumentDetail?";
+        if (detailId === null)
+            throw new Error("The parameter 'detailId' cannot be null.");
+        else if (detailId !== undefined)
+            url_ += "detailId=" + encodeURIComponent("" + detailId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCompleteDocumentDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCompleteDocumentDetail(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCompleteDocumentDetail(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    completeDocument(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Receiving/CompleteDocument?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCompleteDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCompleteDocument(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCompleteDocument(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
     }
 
     /**
@@ -4734,13 +4851,106 @@ export interface ICreateUserDto {
     password: string;
 }
 
+export class Document implements IDocument {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    client: Client;
+    clientId: number;
+    documentNo: string | undefined;
+    documentDate: string | undefined;
+    isCompleted: boolean;
+
+    constructor(data?: IDocument) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.client = _data["client"] ? Client.fromJS(_data["client"]) : <any>undefined;
+            this.clientId = _data["clientId"];
+            this.documentNo = _data["documentNo"];
+            this.documentDate = _data["documentDate"];
+            this.isCompleted = _data["isCompleted"];
+        }
+    }
+
+    static fromJS(data: any): Document {
+        data = typeof data === 'object' ? data : {};
+        let result = new Document();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["documentNo"] = this.documentNo;
+        data["documentDate"] = this.documentDate;
+        data["isCompleted"] = this.isCompleted;
+        return data;
+    }
+
+    clone(): Document {
+        const json = this.toJSON();
+        let result = new Document();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDocument {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    client: Client;
+    clientId: number;
+    documentNo: string | undefined;
+    documentDate: string | undefined;
+    isCompleted: boolean;
+}
+
 export class DocumentDetailDto implements IDocumentDetailDto {
     id: number;
-    clientId: number;
+    product: Product;
     productId: number;
-    productName: string | undefined;
+    document: Document;
     documentId: number;
     quantity: number;
+    isCompleted: boolean;
+    isDeleted: boolean;
 
     constructor(data?: IDocumentDetailDto) {
         if (data) {
@@ -4754,11 +4964,13 @@ export class DocumentDetailDto implements IDocumentDetailDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.clientId = _data["clientId"];
+            this.product = _data["product"] ? Product.fromJS(_data["product"]) : <any>undefined;
             this.productId = _data["productId"];
-            this.productName = _data["productName"];
+            this.document = _data["document"] ? Document.fromJS(_data["document"]) : <any>undefined;
             this.documentId = _data["documentId"];
             this.quantity = _data["quantity"];
+            this.isCompleted = _data["isCompleted"];
+            this.isDeleted = _data["isDeleted"];
         }
     }
 
@@ -4772,11 +4984,13 @@ export class DocumentDetailDto implements IDocumentDetailDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["clientId"] = this.clientId;
+        data["product"] = this.product ? this.product.toJSON() : <any>undefined;
         data["productId"] = this.productId;
-        data["productName"] = this.productName;
+        data["document"] = this.document ? this.document.toJSON() : <any>undefined;
         data["documentId"] = this.documentId;
         data["quantity"] = this.quantity;
+        data["isCompleted"] = this.isCompleted;
+        data["isDeleted"] = this.isDeleted;
         return data;
     }
 
@@ -4790,11 +5004,13 @@ export class DocumentDetailDto implements IDocumentDetailDto {
 
 export interface IDocumentDetailDto {
     id: number;
-    clientId: number;
+    product: Product;
     productId: number;
-    productName: string | undefined;
+    document: Document;
     documentId: number;
     quantity: number;
+    isCompleted: boolean;
+    isDeleted: boolean;
 }
 
 export class DocumentDetailDtoPagedResultDto implements IDocumentDetailDtoPagedResultDto {
@@ -5604,6 +5820,7 @@ export class ReceivingDto implements IReceivingDto {
     productsCodes: string[] | undefined;
     quantities: number[] | undefined;
     isCompleted: boolean;
+    isDeleted: boolean;
 
     constructor(data?: IReceivingDto) {
         if (data) {
@@ -5640,6 +5857,7 @@ export class ReceivingDto implements IReceivingDto {
                     this.quantities.push(item);
             }
             this.isCompleted = _data["isCompleted"];
+            this.isDeleted = _data["isDeleted"];
         }
     }
 
@@ -5676,6 +5894,7 @@ export class ReceivingDto implements IReceivingDto {
                 data["quantities"].push(item);
         }
         data["isCompleted"] = this.isCompleted;
+        data["isDeleted"] = this.isDeleted;
         return data;
     }
 
@@ -5700,6 +5919,62 @@ export interface IReceivingDto {
     productsCodes: string[] | undefined;
     quantities: number[] | undefined;
     isCompleted: boolean;
+    isDeleted: boolean;
+}
+
+export class ReceivingDtoPagedResultDto implements IReceivingDtoPagedResultDto {
+    items: ReceivingDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IReceivingDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(ReceivingDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ReceivingDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReceivingDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): ReceivingDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new ReceivingDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReceivingDtoPagedResultDto {
+    items: ReceivingDto[] | undefined;
+    totalCount: number;
 }
 
 export class RegisterInput implements IRegisterInput {

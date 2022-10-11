@@ -93,12 +93,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.Storage'
             ),
 
-            new MenuItem(
-                this.l('Stocks'),
-                '/app/stock',
-                'fas fa-box-open',
-                'Pages.Stock'
-            ),
+            // new MenuItem(
+            //     this.l('Stocks'),
+            //     '/app/stock',
+            //     'fas fa-box-open',
+            //     'Pages.Stock'
+            // ),
 
             new MenuItem(
                 this.l('Users'),

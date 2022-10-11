@@ -11,10 +11,12 @@ import {
   ClientDto,
   DocumentDetailDto,
   ReceivingServiceProxy,
+  ReceivingDto,
   //ClientDtoPagedResultDto,
 } from '@shared/service-proxies/service-proxies';
 
 import { relativeTimeThreshold } from 'moment';
+import { timeStamp } from 'console';
 
 class PagedDocumentDetailRequestDto extends PagedRequestDto {
   keyword: string;
@@ -27,11 +29,14 @@ class PagedDocumentDetailRequestDto extends PagedRequestDto {
 })
 export class DocumentDetailDialogComponent extends PagedListingComponentBase<DocumentDetailDto> {
    dataSource: DocumentDetailDto[] = [];
+   document: ReceivingDto;
+   id;
 //   keyword = '';
 keyword ='';
-documentDetail: DocumentDetailDto[]
+documentDetails: DocumentDetailDto[] = []; // sil
    
    advancedFiltersVisible = false;
+   isCompleted = false;
 
   constructor(
     injector: Injector,
@@ -52,7 +57,8 @@ documentDetail: DocumentDetailDto[]
         request.keyword,
         //request.isActive,
         request.skipCount,
-        request.maxResultCount
+        request.maxResultCount,
+        this.id
        )
         .pipe(
           finalize(() => {
@@ -65,6 +71,7 @@ documentDetail: DocumentDetailDto[]
        .subscribe(result => {
          this.dataSource = result.items;
          this.showPaging(result, pageNumber)
+         this.check()
        });
    }
    clearFilters(): void {
@@ -72,6 +79,49 @@ documentDetail: DocumentDetailDto[]
      //this.isActive = undefined;
      this.getDataPage(1);
    }
+
+complete(id): void{
+  this._receivingService.completeDocumentDetail(id).subscribe(()=> {
+    this.dataSource.forEach((detail) => {
+      if(detail.id === id) {
+        detail.isCompleted = true;
+      }
+    })
+    this.check();
+  })
+  
+}
+
+deleteDocumentDetail(id) {
+  this._receivingService.deleteDocumentDetail(id).subscribe(() => {
+    this.dataSource.forEach((detail) => {
+      if(detail.id === id) {
+        detail.isDeleted = true;
+      }
+    })
+    this.check();
+  })
+}
+
+check(){
+  for(let i = 0 ; i<this.dataSource.length; i++)
+  {
+    if(!(this.dataSource[i].isCompleted||this.dataSource[i].isDeleted))
+    {
+     return this.isCompleted= false; 
+    }
+  }
+  return this.isCompleted= true;
+}
+
+save(){
+this._receivingService.completeDocument(this.id).subscribe(()=>{
+  this._modalRef.hide();
+  this.isCompleted=true;
+  this.document.isCompleted=true;
+})
+}
+
 delete(): void {
   
 }
